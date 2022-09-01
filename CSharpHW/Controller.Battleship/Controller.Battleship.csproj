@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BLL.Battleship\BLL.Battleship.csproj" />
+      <ProjectReference Include="..\ConsoleUI.Battleship\ConsoleUI.Battleship.csproj" />
+
+    </ItemGroup>
+
+</Project>

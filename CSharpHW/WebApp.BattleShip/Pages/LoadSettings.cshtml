@@ -1,0 +1,25 @@
+﻿@page
+@model WebApp.BattleShip.Pages.LoadSettings
+
+
+<link rel="stylesheet" href="css/style.css">
+
+<div class="centered">
+    @foreach (var item in Model.SettingsList)
+    {
+
+        <form asp-page="LoadSettings" asp-page-handler="SettingsLoading" method="post">
+            <input type="hidden" name="SettingsId" value="@item.SettingsId">
+            <input class="btn-outline-dark menu" type="submit" value="@item.Name">
+        </form>
+    }
+    
+    <form asp-page="MainMenu" method="post">
+        <input class="btn-outline-danger menu" type="submit" value="Main Menu">
+    </form>
+</div>
+
+
+@section scripts {
+    <script type="module" src="js/Background/Background.js"></script>
+}

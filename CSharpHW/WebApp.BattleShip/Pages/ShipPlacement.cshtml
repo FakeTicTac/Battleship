@@ -1,0 +1,195 @@
+﻿@page
+@model WebApp.BattleShip.Pages.ShipPlacement
+
+@{
+    var board = Model.BattleShip.GetPlayerBoard(true, false);
+}
+
+
+<link rel="stylesheet" href="css/style.css">
+
+<div class="container-fluid centered">
+
+    <div class="row my-3" style="font-size: 1.5rem">
+        <form asp-page="ShipPlacement" method="post" asp-page-handler="ToGameSettings" class="col text-left">
+            <input class="" type="submit" value="&#8592 Game Settings">
+        </form>
+
+        <form asp-page="ShipPlacement" method="post" asp-page-handler="FinishPlacement" class="col text-right">
+            <input type="submit" value="Finish Placement &#8594">
+        </form>
+    </div>
+
+    <div class="text-center" style="background: black">
+        <h2 style="font-size: 2rem; color: white">@Model.BattleShip.MakingMovePlayerName() : @Model.BattleShip.MakingMovePlayerBoardCapacity() Cells Left</h2>
+    </div>
+
+    <div class="text-center" style="background: black">
+        <h2 style="font-size: 2rem; color: white">@Model.Message</h2>
+    </div>
+
+    <div class="row my-3" style="background: black">
+        <div class="col d-flex justify-content-center" style="font-size: 1.5rem">
+            <form asp-page="ShipPlacement" method="post" asp-page-handler="SaveGame" class="col text-center">
+                <input class="text-center mt-2" type="text" name="SaveName" value="SaveName">
+                <input type="submit" value="Save Game">
+            </form>
+        </div>
+    </div>
+
+    <div class="row" style="background: black">
+
+        <div class="col-6 text-center">
+
+            <div class="row mb-3 d-flex justify-content-center my-3" style="font-size: 1.5rem">
+                <form asp-page="ShipPlacement" method="post" asp-page-handler="DeleteAll">
+                    <input type="submit" value="Delete All">
+                </form>
+                <form asp-page="ShipPlacement" method="post" asp-page-handler="DeleteLast">
+                    <input style="margin: 0 2rem 0 2rem;" type="submit" value="Delete Last">
+                </form>
+                <form asp-page="ShipPlacement" method="post" asp-page-handler="RandomShips">
+                    <input type="submit" value="Randomize">
+                </form>
+            </div>
+
+
+            @for (var y = 0; y < board.GetLength(1); y++)
+            {
+                <div class="col-12">
+
+                    @for (var x = 0; x < board.GetLength(0); x++)
+                    {
+                        var x1 = x;
+                        var y1 = y;
+                        string id = x.ToString() + y;
+
+                        <form asp-page="ShipPlacement" style="display: inline" asp-page-handler="CreateShip" method="post">
+                            <input type="hidden" id="XCoord" name="XCoord" value="@x1">
+                            <input type="hidden" id="YCoord" name="YCoord" value="@y1">
+                            <input type="hidden" id="XSize" name="XSize" value="1">
+                            <input type="hidden" id="YSize" name="YSize" value="1">
+                            
+                            @switch (board[x1, y1].ToString())
+                            {
+                                case "0":
+                                    <button type="submit" id="Placed" onmouseover="drawShipOnBoard(@x1, @y1)" style="width: 2rem; height: 2rem; background-color: #000000;"></button>
+                                    break;
+                                default:
+                                    <button type="submit" id="@id" onmouseover="drawShipOnBoard(@x1, @y1)" style="width: 2rem; height: 2rem; background-color: #1b6ec2"></button>
+                                    break;
+                            }
+                        </form>
+                    }
+                </div>
+            }
+        </div>
+        
+        <div class="col-6 text-center">
+            <div class="text-center my-3">
+                <button class="cell" onclick="minusWidth()">&#8592;</button>
+                <button class="cell" onclick="addWidth()">&#8594;</button>
+                <button class="cell" onclick="minusHeight()">&#8593;</button>
+                <button class="cell" onclick="addHeight()">&#8595;</button>
+            </div>
+            <div id="ship"></div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .cell {
+        width: 2rem;
+        height: 2rem;
+        margin: 0.2rem;
+    }
+</style>
+
+<script>
+
+    let ship = document.getElementById('ship');
+    let board = document.getElementById('board');
+    
+    let width = 1;
+    let height = 1;
+    
+    let xBoardSize = parseInt(@Html.Raw(board.GetLength(0).ToString()));
+    let yBoardSize = parseInt(@Html.Raw(board.GetLength(1).ToString()));
+    
+    function clearBoard() {
+        for (let y = 0; y < yBoardSize; y++) {
+            for (let x = 0; x < xBoardSize; x++) {
+               
+                let cell = document.getElementById(x.toString() + y.toString());
+                
+                if (cell !== null) cell.style.backgroundColor = '#1b6ec2';
+            }
+        }
+    }
+    
+    function drawShipOnBoard(xCor, yCor) {
+        clearBoard();
+    
+        for (let y = 0; y < yBoardSize; y++) {
+            for (let x = 0; x < xBoardSize; x++) {
+                
+                if (xCor <= x && x < (xCor + width) && yCor <= y && y < (yCor + height)) {
+                    
+                   let cell = document.getElementById(x.toString() + y.toString());
+                   
+                   if (cell !== null) cell.style.backgroundColor = '#f8c016';
+                }
+            }
+        }
+    }
+    
+    function addWidth() {
+        if (xBoardSize > width) width++;
+        drawShip();
+    }
+    
+    function minusWidth() {
+        if (width > 1) width--;
+        drawShip();
+    }
+    
+    function addHeight() {
+        if (yBoardSize > height) height++;
+        drawShip();
+    }
+    
+    function minusHeight() {
+        if (height > 1) height--;
+        drawShip();
+    }
+    
+    function drawShip() {
+        
+        document.getElementsByName("XSize").forEach(x => {x.value = width});
+        document.getElementsByName("YSize").forEach(x => {x.value = height});
+        
+        clearBoard();
+    
+        while (ship.lastChild) {ship.removeChild(ship.lastChild);}
+    
+        for (let y = 1; y <= height; y++) {
+            
+            let divRow = document.createElement('div');
+            
+            for (let x = 1; x <= width; x++) {
+                
+                let div = document.createElement('div');
+                div.classList.add('cell');
+                div.style.backgroundColor = '#f8c016';
+                div.style.display = 'inline-block';
+                divRow.appendChild(div);
+            }
+            ship.appendChild(divRow);
+        }
+    }
+</script>
+
+@section scripts {
+    <script type="module" src="js/Background/Background.js"></script>
+}

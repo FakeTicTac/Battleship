@@ -1,0 +1,23 @@
+﻿@page
+@model IndexModel
+
+
+<link rel="stylesheet" href="css/style.css">
+
+<div class="centered">
+  <h1>Battleship</h1>
+    <form asp-page="MainMenu" method="post">
+      <input type="submit" style="visibility: hidden" id="ToMainMenu" onclick="" value="Continue">
+    </form>
+  <h3 id="BlinkElement">Click To Continue!</h3>
+</div>
+
+
+@section scripts {
+  <script type="module" src="js/Background/Background.js"></script>
+  <script type="module" src="js/AnimationUtils/Blinking.js"></script>
+
+  <script type="text/javascript">
+    document.addEventListener("click", () => {document.getElementById('ToMainMenu').click();});
+  </script>
+}

@@ -1,0 +1,25 @@
+﻿@page
+@model WebApp.BattleShip.Pages.MainMenu
+
+@{ var menuItems = Model.Menu.MenuItems; }
+
+
+<link rel="stylesheet" href="css/style.css">
+
+<div class="centered">
+    @foreach (var item in menuItems)
+    {
+        var aspPage = item.ExecuteFunction() ?? "Index";
+        var onClick = item.Title == "Cheats" ? "window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank').focus();" : "";
+        
+        <form asp-page="@aspPage" method="post">
+            <input onclick="@onClick" class="btn-outline-dark menu" type="submit" value="@item.Title"/>
+        </form>
+        
+    }
+</div>
+
+
+@section scripts {
+    <script type="module" src="js/Background/Background.js"></script>
+}

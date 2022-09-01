@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>MenuSystem</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BLL.Menu\BLL.Menu.csproj" />
+      <ProjectReference Include="..\ConsoleUI.Menu\ConsoleUI.Menu.csproj" />
+    </ItemGroup>
+
+</Project>

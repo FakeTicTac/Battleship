@@ -1,0 +1,63 @@
+﻿
+/*Class for Div Element Mainly To Locate Div in Center.*/
+.centered {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-family: "Montserrat", serif;
+    text-align: center;
+    width: 100%;
+}
+
+/*Class for H1 Element.*/
+h1 {
+    color: #EEEEEE;
+    font-weight: 100;
+    font-size: 180px;
+    text-shadow:  0 0 150px #66FCF1;
+}
+
+/*Class for H3 Element.*/
+h3 {
+    font-weight: 200;
+    font-size: 30px;
+    color: #EEEEEE;
+    letter-spacing: 2px;
+}
+
+/*Class for Input Element in Menu.*/
+.menu {
+    margin: 8px;
+    width: 300px;
+    font-weight: 200;
+    font-size: 30px;
+    color: #000000;
+    letter-spacing: 2px;
+    box-shadow: 0 0 150px #ffffff;
+    font-family: "Montserrat", serif;
+}
+
+/*Class for Text as H3 Element.*/
+.textH3 {
+    font-weight: 200;
+    font-size: 25px;
+    color: #EEEEEE;
+    letter-spacing: 2px;
+    text-shadow:  0 0 150px #000000;
+}
+
+/*Class for Image Display with Borders.*/
+.imageBorders {
+    height: 512px; 
+    width: 512px; 
+    border: 5px solid #ffffff; 
+    float: right
+}
+
+/*Class Divides Screen on 3 Parts.*/
+.threeDivider {
+    width: 30%; 
+    top: 50%; 
+    float:left;
+}

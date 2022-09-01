@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BLL.Battleship\BLL.Battleship.csproj" />
+      <ProjectReference Include="..\Controller.Menu\Controller.Menu.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Figgle" Version="0.4.0" />
+      <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
+    </ItemGroup>
+
+</Project>

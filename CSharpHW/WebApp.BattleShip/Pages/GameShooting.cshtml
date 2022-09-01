@@ -1,0 +1,152 @@
+﻿@page
+@model WebApp.BattleShip.Pages.GameShooting
+
+@{
+    var enemyBoard = Model.BattleShip.GetPlayerBoard(true, true);
+    var homeBoard = Model.BattleShip.GetPlayerBoard(true, false);
+}
+
+
+<link rel="stylesheet" href="css/style.css">
+
+<div class="container-fluid centered">
+
+    <div class="row my-3" style="font-size: 1.5rem">
+        <form asp-page="GameShooting" method="post" asp-page-handler="ToMainMenu">
+            <input class="" type="submit" value="&#8592 Exit">
+        </form>
+    </div>
+
+    <div class="text-center" style="background: black">
+        <h2 style="font-size: 2rem; color: white">@Model.BattleShip.MakingMovePlayerName() Turn</h2>
+    </div>
+
+    <div class="row my-3" style="background: black">
+        <div class="col d-flex justify-content-center" style="font-size: 1.5rem">
+            <form asp-page="GameShooting" method="post" asp-page-handler="SaveGame">
+                <input class="text-center mt-2" type="text" name="SaveName" value="SaveName">
+                <input type="submit" value="Save Game">
+            </form>
+        </div>
+    </div>
+
+    <div class="row" style="background: black">
+
+        <div class="col-6 text-center">
+
+            <div class="row mb-3 d-flex justify-content-center my-3" style="font-size: 1.5rem">
+                <form asp-page="GameShooting" asp-page-handler="ShowHomeBoard" method="post">
+                    <input type="hidden" name="IsShowBoard" value="@Model.ShowHomeBoard.ToString()">
+                    <input type="submit" value="Show My Board">
+                </form>
+            </div>
+
+            @if (Model.ShowHomeBoard)
+            {
+                <div class="col-12">
+                    <h1 style="font-size: 1.5rem">Home Board</h1>
+                    @for (var y = 0; y < homeBoard.GetLength(1); y++)
+                    {
+                        <div class="col-12">
+                            @for (var x = 0; x < homeBoard.GetLength(0); x++)
+                            {
+                                var formId = "board" + x + y;
+                                switch (homeBoard[x, y].ToString())
+                                {
+                                    case " ":
+                                        <button class="cell empty-cell" form="@formId"></button>
+                                        break;
+                                    case "0":
+                                        <button class="cell ship-cell" form="@formId"></button>
+                                        break;
+                                    case "~":
+                                        <button class="cell miss-cell" form="board"></button>
+                                        break;
+                                    case "X":
+                                        <button class="cell kill-cell" form="board"></button>
+                                        break;
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <h1 style="font-size: 1.5rem">Home Board</h1>
+                </div>
+            }
+        </div>
+
+        <div class="col-6 text-center">
+
+            <div class="row mb-3 d-flex justify-content-center my-3" style="font-size: 1.5rem">
+                <form asp-page="GameShooting" method="post" asp-page-handler="Rewind">
+                    <input type="submit" value="Rewind">
+                </form>
+            </div>
+
+            <div class="col-12">
+                <h1 style="font-size: 1.5rem">Enemy Board</h1>
+                @for (var y = 0; y < enemyBoard.GetLength(1); y++)
+                {
+                    <div class="col-12">
+                        @for (var x = 0; x < enemyBoard.GetLength(0); x++)
+                        {
+                            var formId = "board" + x + y;
+                            switch (enemyBoard[x, y].ToString())
+                            {
+                                case " ":
+                                    <form asp-page="GameShooting" asp-page-handler="Shoot" id="@formId">
+                                        <input type="hidden" name="xCor" value="@x">
+                                        <input type="hidden" name="yCor" value="@y">
+                                        <button class="cell empty-cell" form="@formId"></button>
+                                    </form>
+                                    break;
+                                case "~":
+                                    <button class="cell miss-cell" form="board"></button>
+                                    break;
+                                case "X":
+                                    <button class="cell kill-cell" form="board"></button>
+                                    break;
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .cell {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .empty-cell {
+        background:#1b6ec2;
+    }
+    
+    .miss-cell {
+        background:#ba8b00;
+    }
+    
+    .kill-cell {
+        background:#a71d2a;
+    }
+    
+    .ship-cell {
+            background:#000;
+    }
+    
+    form {
+        display: inline-block;
+    }
+</style>
+
+@section scripts {
+    <script type="module" src="js/Background/Background.js"></script>
+}

@@ -1,0 +1,128 @@
+﻿@page
+@model WebApp.BattleShip.Pages.GameEnd
+
+@{
+    var playerOneBoard = Model.BattleShip.PLayerOne!.OwnBoard!.Board!;
+    var playerTwoBoard = Model.BattleShip.PlayerTwo!.OwnBoard!.Board!;
+}
+
+
+<link rel="stylesheet" href="css/style.css">
+
+<div class="container-fluid centered">
+    
+    <div class="text-center">
+        <h1 style="font-size: 4rem;">WINNER : @Model.BattleShip.WinnerPlayerName()</h1>
+    </div>
+    
+    
+    <div class="row my-3 text-center">
+        <div class="col">
+            <div class="row my-3">
+                <div class="col-5 text-center">
+                    <h1 style="font-size: 2rem;">@Model.BattleShip.PLayerOne.Name Board</h1>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-5 text-center">
+                    <h1 style="font-size: 2rem;">@Model.BattleShip.PlayerTwo.Name Board</h1>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-5">
+                    @for (var y = 0; y < playerTwoBoard.GetLength(1); y++)
+                    {
+                        <div class="col-12">
+                            @for (var x = 0; x < playerTwoBoard.GetLength(0); x++)
+                            {
+                                var formId = "board" + x + y;
+                                switch (playerTwoBoard[x, y].ToString())
+                                {
+                                    case " ":
+                                        <button class="cell empty-cell" form="@formId"></button>
+                                        break;
+                                    case "0":
+                                        <button class="cell ship-cell" form="@formId"></button>
+                                        break;
+                                    case "~":
+                                        <button class="cell miss-cell" form="board"></button>
+                                        break;
+                                    case "X":
+                                        <button class="cell kill-cell" form="board"></button>
+                                        break;
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="col-2">
+                    <div class="row pt-4">
+                        <div class="col">
+                            <form style="display: inline-block; font-size: 2rem" asp-page="GameShooting" method="post" asp-page-handler="ToMainMenu">
+                                <input class="btn-outline-danger menu mx-1" type="submit" value="Exit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5">
+                    @for (var y = 0; y < playerOneBoard.GetLength(1); y++)
+                    {
+                        <div class="col-12">
+                            @for (var x = 0; x < playerOneBoard.GetLength(0); x++)
+                            {
+                                var formId = "board" + x + y;
+                                switch (playerOneBoard[x, y].ToString())
+                                {
+                                    case " ":
+                                        <button class="cell empty-cell" form="@formId"></button>
+                                        break;
+                                    case "0":
+                                        <button class="cell ship-cell" form="@formId"></button>
+                                        break;
+                                    case "~":
+                                        <button class="cell miss-cell" form="board"></button>
+                                        break;
+                                    case "X":
+                                        <button class="cell kill-cell" form="board"></button>
+                                        break;
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .cell {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .empty-cell {
+        background:#1b6ec2;
+    }
+    
+    .miss-cell {
+        background:#001f6c;
+    }
+    
+    .kill-cell {
+        background:#7e0006;
+    }
+    
+    .ship-cell {
+            background:#000;
+    }
+   
+</style>
+
+
+@section scripts {
+    <script type="module" src="js/Background/Background.js"></script>
+}

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BLL.Calculator\BLL.Calculator.csproj" />
+      <ProjectReference Include="..\BLL.Menu\BLL.Menu.csproj" />
+      <ProjectReference Include="..\ConsoleUI.Calculator\ConsoleUI.Calculator.csproj" />
+      <ProjectReference Include="..\Controller.Menu\Controller.Menu.csproj" />
+    </ItemGroup>
+
+</Project>
